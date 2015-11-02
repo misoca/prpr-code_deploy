@@ -19,7 +19,7 @@ module Prpr
 
         def deployment_group_name(event)
           if event.ref =~ %r(deployment/(.*))
-            $1
+            env.format(:code_deploy_group, { branch: $1 })
           else
             nil
           end
