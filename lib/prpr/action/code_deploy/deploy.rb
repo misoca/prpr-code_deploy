@@ -18,7 +18,7 @@ module Prpr
         end
 
         def deployment_group_name(event)
-          if event.ref =~ %r(deployment/(.*)) and !event.forced
+          if event.ref =~ %r(#{prefix}/(.*)) and !event.forced
             env.format(:code_deploy_group, { branch: $1 })
           else
             nil
@@ -52,6 +52,10 @@ module Prpr
             body: deployment.deployment_id,
             from: { login: 'aws' },
             room: env[:code_deploy_room])
+        end
+
+        def prefix
+          env[:code_deploy_prefix] || 'deployment'
         end
       end
     end
